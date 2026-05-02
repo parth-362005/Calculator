@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Advanced Calculator</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .calculator {
+        background: #1e293b;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        width: 320px;
+    }
+
+    .display {
+        width: 100%;
+        height: 60px;
+        background: #020617;
+        color: #38bdf8;
+        font-size: 24px;
+        text-align: right;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        overflow-x: auto;
+    }
+
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+    }
+
+    button {
+        padding: 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #334155;
+        color: white;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #475569;
+    }
+
+    .operator {
+        background: #2563eb;
+    }
+
+    .operator:hover {
+        background: #1d4ed8;
+    }
+
+    .equal {
+        background: #16a34a;
+        grid-column: span 2;
+    }
+
+    .equal:hover {
+        background: #15803d;
+    }
+
+    .clear {
+        background: #dc2626;
+    }
+
+    .clear:hover {
+        background: #b91c1c;
+    }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <div id="display" class="display">0</div>
+
+    <div class="buttons">
+        <button onclick="clearDisplay()" class="clear">C</button>
+        <button onclick="deleteLast()">DEL</button>
+        <button onclick="append('(')">(</button>
+        <button onclick="append(')')">)</button>
+        <button onclick="append('/') " class="operator">÷</button>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('*')" class="operator">×</button>
+        <button onclick="append('Math.sqrt(')">√</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('-')" class="operator">−</button>
+        <button onclick="append('Math.pow(')">xʸ</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="append('+')" class="operator">+</button>
+        <button onclick="append('Math.log10(')">log</button>
+
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+        <button onclick="append('Math.sin(')">sin</button>
+        <button onclick="append('Math.cos(')">cos</button>
+        <button onclick="append('Math.tan(')">tan</button>
+
+        <button onclick="calculate()" class="equal">=</button>
+    </div>
+</div>
+
+<script>
+    let display = document.getElementById("display");
+
+    function append(value) {
+        if (display.innerText === "0") {
+            display.innerText = value;
+        } else {
+            display.innerText += value;
+        }
+    }
+
+    function clearDisplay() {
+        display.innerText = "0";
+    }
+
+    function deleteLast() {
+        display.innerText = display.innerText.slice(0, -1);
+        if (display.innerText === "") {
+            display.innerText = "0";
+        }
+    }
+
+    function calculate() {
+        try {
+            display.innerText = eval(display.innerText);
+        } catch {
+            display.innerText = "Error";
+        }
+    }
+
+    // Keyboard Support
+    document.addEventListener("keydown", function(event) {
+        if (!isNaN(event.key) || "+-*/().".includes(event.key)) {
+            append(event.key);
+        } else if (event.key === "Enter") {
+            calculate();
+        } else if (event.key === "Backspace") {
+            deleteLast();
+        } else if (event.key === "Escape") {
+            clearDisplay();
+        }
+    });
+</script>
+
+</body>
+</html>
